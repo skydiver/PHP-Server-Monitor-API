@@ -31,10 +31,10 @@
   **/
 
 // Following 2 lines are for debug purpose.
-/*
+
 ini_set('display_errors', 'On');
 error_reporting(E_ALL);
-*/
+
 
 /*
  * This API will Validate user by email and password 
