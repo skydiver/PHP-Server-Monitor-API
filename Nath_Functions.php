@@ -25,29 +25,27 @@
  * @link        https://www.serveralarms.com/
  **/
 
-
-if (version_compare(PHP_VERSION, '5.3.7', '<')) {
-    exit("Sorry, Simple PHP Login does not run on a PHP version smaller than 5.3.7 !");
-} else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-    // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
-    // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
-    require_once '../src/includes/password_compatibility_library.inc.php';
-}
-
-$dbprifix='';
-
-class DB_Functions {
-    private $db;
-    function __construct() {
-        require_once '../config.php';
-        require_once 'Nath_Connect.php';
-        // connecting to database
-        $this->db = new DB_Connect();
-        $this->db->connect();
+/*
+    if (version_compare(PHP_VERSION, '5.3.7', '<')) {
+        exit("Sorry, Simple PHP Login does not run on a PHP version smaller than 5.3.7 !");
+    } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
+        // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
+        // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
+        require_once '../src/includes/password_compatibility_library.inc.php';
     }
-    // destructor
-    function __destruct() {
-    }
+*/
+
+    class DB_Functions {
+        
+        private $db;
+        
+        function __construct() {
+            require_once '../config.php';
+            require_once 'Nath_Connect.php';
+            $db = new DB_Connect();
+            $this->db = $db->connect();
+        }
+
 
     /**
      * Password reset code
@@ -305,29 +303,28 @@ public function isServerIDExisted($server_id) {
     }
 }
 
-/**
- * Login using Email and Password
- * @param type $email
- * @param type $app_password
- * @return boolean
- */
-public function loginWithPostData($email, $app_password) {
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $users = 'users';
-    $result = mysql_query("SELECT * from $dbprefix$users WHERE email = '$email'");
-    $no_of_rows = mysql_num_rows($result);
-    if ($no_of_rows > 0) {
-        $result = mysql_fetch_array($result);
-        $hash_password = $result['password'];
-            if(password_verify($app_password, $hash_password)) {
+    /**
+    * Login using Email and Password
+    * @param type $email
+    * @param type $app_password
+    * @return boolean
+    */
+    public function loginWithPostData($email, $app_password) {
+     
+        $SQL  = "SELECT * from " . PSM_DB_PREFIX . "users WHERE email = '". $email ."'";
+        $res  = $this->db->prepare($SQL);
+        $res->execute();
+
+        if($res->rowCount() > 0) {
+            $result = $res->fetch(PDO::FETCH_ASSOC);           
+            $hash   = $result['password'];
+            if(password_verify($app_password, $hash)) {
                 return $result;
-            }else{
-                return false;
             }
-    } else {
-        // user not Found
+        }
+
         return false;
-    }
+
     }
 
 /**

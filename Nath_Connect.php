@@ -25,27 +25,14 @@
  * @link        https://www.serveralarms.com/
  **/
  
-class DB_Connect {
-    // constructor
-    function __construct() {
+    class DB_Connect {
+
+        public function connect() {
+            require_once ('../config.php');
+            $con = new PDO('mysql:host='.PSM_DB_HOST.';dbname='.PSM_DB_NAME, PSM_DB_USER, PSM_DB_PASS);
+            return $con;
+        }
+
     }
-    // destructor
-    function __destruct() {
-        // $this->close();
-    }
-    // Connecting to database
-    public function connect() {
-        require_once ('../config.php');
-        // connecting to mysql
-        $con = mysql_connect(PSM_DB_HOST, PSM_DB_USER, PSM_DB_PASS);
-        // selecting database
-        mysql_select_db(PSM_DB_NAME);
-        // return database handler
-        return $con;
-    }
-    // Closing database connection
-    public function close() {
-        mysql_close();
-    }
-}
+
 ?>
