@@ -29,46 +29,49 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 ```
 
 
-##Get All Servers List:
+## Get All Servers List:
+```
 /api/monitorapi.php?tag=serverlist&email=email@domain.com&app_password=USER_PASS&user_id=1
+```
 
 **Fields Require:**
-Tag = serverlist
-email = Your PHP Server Monitor user's email address  
-app_password = PHP Server Monitor user's password
-user_id = PHP Server Monitor user's ID
+* tag = serverlist
+* email = Your PHP Server Monitor user's email address  
+* app_password = PHP Server Monitor user's password
+* user_id = PHP Server Monitor user's ID
 
 **Response:**
 ```json
 {
-  tag: "serverlist",
-  success: 1,
-  server: [
-	{
-	server_id: "1",
-	ip: "https://hostfav.com",
-	port: "80",
-	label: "Hostfav Hosting",
-	type: "website",
-	status: "on",
-	last_online: "2016-03-21 13:10:02",
-	last_check: "2016-03-21 13:10:02",
-	active: "yes",
-	email: "yes",
-	pushover: "yes",
-	warning_threshold: "1",
-	warning_threshold_counter: "0",
-	user_id: "2"
-
-	}
-	]
+    tag: "serverlist",
+    success: 1,
+    server: [
+        {
+            server_id: "1",
+            ip: "https://hostfav.com",
+            port: "80",
+            label: "Hostfav Hosting",
+            type: "website",
+            status: "on",
+            last_online: "2016-03-21 13:10:02",
+            last_check: "2016-03-21 13:10:02",
+            active: "yes",
+            email: "yes",
+            pushover: "yes",
+            warning_threshold: "1",
+            warning_threshold_counter: "0",
+            user_id: "2"
+        }
+    ]
 }
 ```
 
 
 
-##Get Monitor's Uptime:
+## Get Monitor's Uptime:
+```
 /api/monitorapi.php?tag=serveruptime&email=email@domain.com&app_password=USER_PASS&server_id=6&HoursUnit=25
+```
 
 **Fields Require:**
 Tag = serveruptime
