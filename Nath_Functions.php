@@ -165,46 +165,46 @@ public function getServer($server_id) {
                      WHERE DATE(datetime) > (NOW() - INTERVAL '" . $days . "' DAY) AND (server_id='" . $server_id . "' AND type='status')";
             $res  = $this->db->prepare($SQL);
             $res->execute();
-            return $res->fetchAll(PDO::FETCH_ASSOC);                
+            return $res->fetchAll(PDO::FETCH_ASSOC);
         }
 
 
-/**
- * Add Server to Monitor
- * @param type $user_id
- * @param type $ip
- * @param type $port
- * @param type $label
- * @param type $type
- * @param type $status
- * @param type $active
- * @param type $emailalert
- * @param type $warning_threshold
- * @param type $timeout
- * @return boolean
- */
- public function addservertoMonitor($user_id, $ip, $port, $label, $type, $status, $active, $emailalert, $warning_threshold, $timeout) {
-   $dbprefix = $this->db =PSM_DB_PREFIX;
-   $servers = 'servers';
-   $users_servers = 'users_servers';
-   
-   // Insert Server's Details 
-   $result = mysql_query("INSERT INTO $dbprefix$servers (ip, port, label, type, status, active, email, warning_threshold, timeout) VALUES('$ip', '$port', '$label', '$type', '$status', '$active', '$emailalert', '$warning_threshold', '$timeout')");
-    // check for successful store
-    if ($result) {
-        // Insert Server ID and User ID
-        $server_id = mysql_insert_id(); // last inserted id
-        $result1 = mysql_query("INSERT INTO $dbprefix$users_servers (user_id, server_id) VALUES('$user_id', '$server_id')");
-        // Check result
-        if ($result1) {
-            return $result1;
-        }else{
+        /**
+         * Add Server to Monitor
+         * @param type $user_id
+         * @param type $ip
+         * @param type $port
+         * @param type $label
+         * @param type $type
+         * @param type $status
+         * @param type $active
+         * @param type $emailalert
+         * @param type $warning_threshold
+         * @param type $timeout
+         * @return boolean
+         */
+         public function addservertoMonitor($user_id, $ip, $port, $label, $type, $status, $active, $emailalert, $warning_threshold, $timeout) {
+
+            $SQL  = "INSERT INTO " . PSM_DB_PREFIX . "servers
+                     (ip, port, label, type, status, active, email, warning_threshold, timeout)
+                     VALUES('". $ip ."', '". $port ."', '". $label ."', '". $type ."', '". $status ."', '". $active ."', '". $emailalert ."', '". $warning_threshold ."', '". $timeout ."')";
+            $res  = $this->db->prepare($SQL);
+
+            if($res->execute()) {
+
+                $server_id = $this->db->lastInsertId();
+                $SQL2 = "INSERT INTO " . PSM_DB_PREFIX . "users_servers (user_id, server_id) VALUES('" . $user_id . "', '" . $server_id . "')";
+                $res2 = $this->db->prepare($SQL2);
+
+                if($res2->execute()) {
+                    return $res2;
+                }
+
+            }
+
             return false;
+
         }
-    } else {
-        return false;
-    }
-}
 
 /**
  * Update Server to Monitor
@@ -257,26 +257,18 @@ public function getServer($server_id) {
         }
 }
 
- /*
- * Check Server ID existed or not*
- * @param type $server_id
- * @return boolean
- */
-         
-public function isServerIDExisted($server_id) {
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $servers = 'servers';
-    
-    $result = mysql_query("SELECT server_id from $dbprefix$servers WHERE server_id = '$server_id'");
-    $no_of_rows = mysql_num_rows($result);
-    if ($no_of_rows > 0) {
-        // Server existed
-        return true;
-    } else {
-        // Server not existed
-        return false;
-    }
-}
+         /*
+         * Check Server ID existed or not*
+         * @param type $server_id
+         * @return boolean
+         */
+
+        public function isServerIDExisted($server_id) {
+            $SQL  = "SELECT server_id from " . PSM_DB_PREFIX . "servers WHERE server_id = '" . $server_id . "'";
+            $res  = $this->db->prepare($SQL);
+            $res->execute();
+            return $res->fetch(PDO::FETCH_ASSOC);
+        }
 
         /**
         * Login using Email and Password
