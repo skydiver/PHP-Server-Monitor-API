@@ -117,34 +117,38 @@ public function getMonitorStatusByUserID($user_id) {
     }
 }
 
-/**
- * Get Server's Uptime by Server ID
- * @param type $server_id
- * @param type $HoursUnit
- * @return boolean
- */
-public function getServerUptime($server_id, $HoursUnit) {
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $servers_uptime = 'servers_uptime';
-    if($HoursUnit <= 1){
-        $r = mysql_query("SELECT servers_uptime_id, server_id, date, status, latency FROM $dbprefix$servers_uptime WHERE date >=(NOW() - INTERVAL '$HoursUnit' HOUR) AND (server_id='$server_id')");
-    }else{
-        $r = mysql_query("SELECT servers_uptime_id, server_id, date, status, AVG(latency) as latency FROM $dbprefix$servers_uptime WHERE date >=(NOW() - INTERVAL '$HoursUnit' HOUR) AND (server_id='$server_id') GROUP BY DATE(date), HOUR(date)");
-    }
+        /**
+         * Get Server's Uptime by Server ID
+         * @param type $server_id
+         * @param type $HoursUnit
+         * @return boolean
+         */
+        public function getServerUptime($server_id, $HoursUnit) {
 
-    // check for result
-    $no_of_rows = mysql_num_rows($r);
-    if ($no_of_rows > 0) {
-        $result = array();
-        while ($row = mysql_fetch_assoc($r)) {
-            $result[] = $row;
+            if($HoursUnit <= 1){
+                $SQL = "SELECT servers_uptime_id, server_id, date, status, latency
+                        FROM " . PSM_DB_PREFIX . "servers_uptime
+                        WHERE date >=(NOW() - INTERVAL '" . $HoursUnit . "' HOUR) AND (server_id='" . $server_id . "')";
+            } else {               
+                $SQL = "SELECT servers_uptime_id, server_id, date, status, AVG(latency) as latency
+                        FROM " . PSM_DB_PREFIX . "servers_uptime
+                        WHERE date >=(NOW() - INTERVAL '" . $HoursUnit . "' HOUR) AND (server_id='" . $server_id . "')
+                        GROUP BY DATE(date), HOUR(date)";
+            }
+
+            $res  = $this->db->prepare($SQL);
+            $res->execute();
+
+            if($res->rowCount() > 0) {
+                while($row = $res->fetchAll(PDO::FETCH_ASSOC)) {
+                    $result[] = $row;
+                }
+                return $result;                
+            }
+
+            return false;
+
         }
-        return $result;
-    } else {
-        // Uptime records not found
-        return false;
-    }
-}
 
 
 /**
