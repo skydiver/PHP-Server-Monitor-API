@@ -74,36 +74,36 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 ```
 
 **Fields Require:**
-Tag = serveruptime
-email = Your PHP Server Monitor user's email address  
-app_password = PHP Server Monitor user's password
-server_id = Monitor's ID
-HoursUnit = Number or hours
+* tag = serveruptime
+* email = Your PHP Server Monitor user's email address  
+* app_password = PHP Server Monitor user's password
+* server_id = Monitor's ID
+* HoursUnit = Number or hours
 
 
 **Response:**
 ```json
 {
-  tag: "serveruptime",
-  success: 1,
-  average_latency: 0.0018558051161538,
-  uptime: 100,
-  server: [
-	{
-	servers_uptime_id: "1973944",
-	server_id: "79",
-	date: "2016-07-11 10:50:02",
-	status: "1",
-	latency: "0.00042489999"
-	},
-	{
-	servers_uptime_id: "1975137",
-	server_id: "79",
-	date: "2016-07-11 11:50:03",
-	status: "1",
-	latency: "0.00038028333"
-	}
-    	]
+    "tag": "serveruptime",
+    "success": 1,
+    "average_latency": 0.0018558051161538,
+    "uptime": 100,
+    "server": [
+        {
+            "servers_uptime_id": "1973944",
+            "server_id": "79",
+            "date": "2016-07-11 10:50:02",
+            "status": "1",
+            "latency": "0.00042489999"
+        },
+        {
+            "servers_uptime_id": "1975137",
+            "server_id": "79",
+            "date": "2016-07-11 11:50:03",
+            "status": "1",
+            "latency": "0.00038028333"
+        }
+    ]
 }
 ```
 
