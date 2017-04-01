@@ -107,76 +107,82 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 }
 ```
 
-##Get Monitor's Log
+## Get Monitor's Log
+```
 /api/monitorapi.php?tag=serverlogs&email=email@domain.com&app_password=USER_PASS&server_id=79&days=7
+```
 
 **Fields Require:**
-Tag = serverlogs
-email = Your PHP Server Monitor user's email address  
-app_password = PHP Server Monitor user's password
-server_id = Monitor's ID
-days = Number of days log.
+* tag = serverlogs
+* email = Your PHP Server Monitor user's email address  
+* app_password = PHP Server Monitor user's password
+* server_id = Monitor's ID
+* days = Number of days log.
 
 **Response:**
 ```json
 {
-  tag: "serverlogs",
-  success: 1,
-  server: [
-	{
-	type: "status",
-	message: "Server 'srv01.yourdomain.com' is RUNNING: ip=srv01.yourdomain.com, port=1",
-	datetime: "2016-07-10 13:40:02"
-	},
-	{
-	type: "status",
-	message: "Server 'srv01.yourdomain.com' is DOWN: ip=srv01.yourdomain.com, port=1. Error=",
-	datetime: "2016-07-10 13:30:15"
-	}
-	]
+    "tag": "serverlogs",
+    "success": 1,
+    "server": [
+        {
+            "type": "status",
+            "message": "Server 'srv01.yourdomain.com' is RUNNING: ip=srv01.yourdomain.com, port=1",
+            "datetime": "2016-07-10 13:40:02"
+        },
+        {
+            "type": "status",
+            "message": "Server 'srv01.yourdomain.com' is DOWN: ip=srv01.yourdomain.com, port=1. Error=",
+            "datetime": "2016-07-10 13:30:15"
+        }
+    ]
 }
 ```
 
-##Add/Update Monitor:
+## Add/Update Monitor:
+```
 /api/monitorapi.php?tag=addupdateserver&user_id=3&email=email@domain.com&app_password=USER_PASS&ip=x.x.x.x&port=80&label=Serveralarms.com&type=service&status=off&active=yes&emailalert=yes&warning_threshold=60&timeout=60&server_id=
+```
 
 **Fields Require:**
-Tag = addupdateserver
-email = Your PHP Server Monitor user's email address  
-app_password = PHP Server Monitor user's password
-ip = Monitor's IP address
-port = Monitor's TCP/UDP Port number
-label = Monitor's Name
-type = Website, Service or Ping
-status = Monitor's Status
-active = Monitor Active/Inavtive
-emailalert = Enable/Disable Email Alert
-warning_threshold= Warning Threshold
-timeout= Timeout
-server_id = If you are adding new server server_id filed send blank.
+* tag = addupdateserver
+* email = Your PHP Server Monitor user's email address  
+* app_password = PHP Server Monitor user's password
+* ip = Monitor's IP address
+* port = Monitor's TCP/UDP Port number
+* label = Monitor's Name
+* type = Website, Service or Ping
+* status = Monitor's Status
+* active = Monitor Active/Inavtive
+* emailalert = Enable/Disable Email Alert
+* warning_threshold= Warning Threshold
+* timeout= Timeout
+* server_id = If you are adding new server server_id filed send blank.
 
 **Response:**
 ```json
 {
-  tag: "addupdateserver",
-  success: 1
+    "tag": "addupdateserver",
+    "success": 1
 }
 ```
 
-##Delete Monitor:
+## Delete Monitor:
+```
 /api/monitorapi.php?tag=deleteserver&email=email@domain.com&app_password=USER_PASS&server_id=
+```
 
 **Fields Require:**
-Tag = addupdateserver
-email = Your PHP Server Monitor user's email address  
-app_password = PHP Server Monitor user's password
-server_id = Monitor's ID
+* tag = addupdateserver
+* email = Your PHP Server Monitor user's email address  
+* app_password = PHP Server Monitor user's password
+* server_id = Monitor's ID
 
 **Response:**
 ```json
 {
-	tag: "deleteserver",
-	success: 1
+    "tag": "deleteserver",
+    "success": 1
 }
 ```
 
