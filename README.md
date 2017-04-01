@@ -47,20 +47,20 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
     success: 1,
     server: [
         {
-            server_id: "1",
-            ip: "https://hostfav.com",
-            port: "80",
-            label: "Hostfav Hosting",
-            type: "website",
-            status: "on",
-            last_online: "2016-03-21 13:10:02",
-            last_check: "2016-03-21 13:10:02",
-            active: "yes",
-            email: "yes",
-            pushover: "yes",
-            warning_threshold: "1",
-            warning_threshold_counter: "0",
-            user_id: "2"
+            "server_id": "1",
+            "ip": "https://hostfav.com",
+            "port": "80",
+            "label": "Hostfav Hosting",
+            "type": "website",
+            "status": "on",
+            "last_online": "2016-03-21 13:10:02",
+            "last_check": "2016-03-21 13:10:02",
+            "active": "yes",
+            "email": "yes",
+            "pushover": "yes",
+            "warning_threshold": "1",
+            "warning_threshold_counter": "0",
+            "user_id": "2"
         }
     ]
 }
