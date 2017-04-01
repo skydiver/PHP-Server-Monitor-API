@@ -4,7 +4,7 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 
 
 ## Login API:
-/api/userapi.php?tag=login&email=email@yourdomain.com&app_password=USER_PASS&phone_type=iPhoneORAndroid&devicetoken=xxxxxxxxxx
+```/api/userapi.php?tag=login&email=email@yourdomain.com&app_password=USER_PASS&phone_type=iPhoneORAndroid&devicetoken=xxxxxxxxxx```
 
 **Fields Require:**
 Tag = login
