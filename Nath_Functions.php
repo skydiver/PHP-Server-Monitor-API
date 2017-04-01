@@ -46,25 +46,6 @@
             $this->db = $db->connect();
         }
 
-
-    /**
-     * Password reset code
-     * @return type
-     */
-public function random_string(){
-    $character_set_array = array();
-    $character_set_array[] = array('count' => 7, 'characters' => 'abcdefghijklmnopqrstuvwxyz');
-    $character_set_array[] = array('count' => 1, 'characters' => '0123456789');
-    $temp_array = array();
-    foreach ($character_set_array as $character_set) {
-        for ($i = 0; $i < $character_set['count']; $i++) {
-            $temp_array[] = $character_set['characters'][rand(0, strlen($character_set['characters']) - 1)];
-        }
-    }
-    shuffle($temp_array);
-    return implode('', $temp_array);
-}
-
         /**
          * Get User's Servers List by User ID
          * @param type $user_id
@@ -79,32 +60,23 @@ public function random_string(){
             return $res->fetchAll(PDO::FETCH_ASSOC);
         }
 
-/**
- * Get Monitoring Dashboard
- * @param type $user_id
- * @return boolean
- */
-public function getMonitorStatusByUserID($user_id) {
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $servers = 'servers';
-    $users_servers = 'users_servers';
-
-    $r = mysql_query("SELECT COUNT(a.server_id) as servercount, count(if(a.status = 'on', a.status, NULL))
- as statusoncount, count(if(a.status = 'off', a.status, NULL))
- as statusoffcount, count(if(a.active = 'no', a.active, NULL))
- as activecount, count(if(a.email = 'yes', a.email, NULL))
- as emailalertcount, b.server_id, b.user_id FROM $dbprefix$servers a, $dbprefix$users_servers b WHERE b.user_id='$user_id' AND a.server_id=b.server_id");
-    // check for result
-    $no_of_rows = mysql_num_rows($r);
-    if ($no_of_rows > 0) {
-        // Status found
-        $result = mysql_fetch_array($r);
-        return $result;
-    } else {
-        // Status not found
-        return false;
-    }
-}
+        /**
+         * Get Monitoring Dashboard
+         * @param type $user_id
+         * @return boolean
+         */
+        public function getMonitorStatusByUserID($user_id) {
+            $SQL = "SELECT COUNT(a.server_id) as servercount, count(if(a.status = 'on', a.status, NULL))
+                    AS statusoncount, count(if(a.status = 'off', a.status, NULL))
+                    AS statusoffcount, count(if(a.active = 'no', a.active, NULL))
+                    AS activecount, count(if(a.email = 'yes', a.email, NULL))
+                    AS emailalertcount, b.server_id, b.user_id
+                    FROM " . PSM_DB_PREFIX . "servers a, " . PSM_DB_PREFIX . "users_servers b
+                    WHERE b.user_id='" . $user_id . "' AND a.server_id=b.server_id";
+            $res  = $this->db->prepare($SQL);
+            $res->execute();
+            return $res->fetch(PDO::FETCH_ASSOC);
+        }
 
         /**
          * Get Server's Uptime by Server ID
