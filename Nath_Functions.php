@@ -140,7 +140,7 @@ public function getMonitorStatusByUserID($user_id) {
             $res->execute();
 
             if($res->rowCount() > 0) {
-                while($row = $res->fetchAll(PDO::FETCH_ASSOC)) {
+                while($row = $res->fetch(PDO::FETCH_ASSOC)) {
                     $result[] = $row;
                 }
                 return $result;                
