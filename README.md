@@ -17,13 +17,13 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 
 ```json
 {
-  tag: "login",
-  success: 1,
-  user: {
-	user_id: "2",
-	name: "User Name",
-	mobile: "23121212121",
-	email: "email@domain.com"
+    "tag": "login",
+    "success": 1,
+    "user": {
+        "user_id": "2",
+		"name": "User Name",
+		"mobile": "23121212121",
+		"email": "email@domain.com"
 	}
 }
 ```
