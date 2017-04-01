@@ -303,48 +303,46 @@ public function isServerIDExisted($server_id) {
     }
 }
 
-    /**
-    * Login using Email and Password
-    * @param type $email
-    * @param type $app_password
-    * @return boolean
-    */
-    public function loginWithPostData($email, $app_password) {
-     
-        $SQL  = "SELECT * from " . PSM_DB_PREFIX . "users WHERE email = '". $email ."'";
-        $res  = $this->db->prepare($SQL);
-        $res->execute();
+        /**
+        * Login using Email and Password
+        * @param type $email
+        * @param type $app_password
+        * @return boolean
+        */
+        public function loginWithPostData($email, $app_password) {
 
-        if($res->rowCount() > 0) {
-            $result = $res->fetch(PDO::FETCH_ASSOC);           
-            $hash   = $result['password'];
-            if(password_verify($app_password, $hash)) {
-                return $result;
+            $SQL  = "SELECT * from " . PSM_DB_PREFIX . "users WHERE email = '". $email ."'";
+            $res  = $this->db->prepare($SQL);
+            $res->execute();
+
+            if($res->rowCount() > 0) {
+                $result = $res->fetch(PDO::FETCH_ASSOC);
+                $hash   = $result['password'];
+                if(password_verify($app_password, $hash)) {
+                    return $result;
+                }
             }
+
+            return false;
+
         }
 
-        return false;
-
-    }
-
-/**
- * Update iPhone Device Token and phone type in the Database
- * @param type $email
- * @param type $devicetoken
- * @param type $phone_type
- * @return boolean
- */    
-public function iphoneDeviceToken($email, $devicetoken, $phone_type) {
-        $dbprefix = $this->db =PSM_DB_PREFIX;
-        $users = 'users';
-        $result = mysql_query("UPDATE $dbprefix$users SET pushover_device = '$phone_type', pushover_key = '$devicetoken'
-                          WHERE email = '$email'");
-        if ($result) {
-            return true;
-        }else{
+        /**
+         * Update iPhone Device Token and phone type in the Database
+         * @param type $email
+         * @param type $devicetoken
+         * @param type $phone_type
+         * @return boolean
+         */
+        public function iphoneDeviceToken($email, $devicetoken, $phone_type) {
+            $SQL  = "UPDATE " . PSM_DB_PREFIX . "users SET pushover_device = '" . $phone_type . "', pushover_key = '" . $devicetoken . "' WHERE email = '" . $email . "'";
+            $res  = $this->db->prepare($SQL);
+            if($res->execute()) {
+                return true;
+            }
             return false;
         }
+
     }
 
-}
 ?>
