@@ -131,27 +131,17 @@ public function getMonitorStatusByUserID($user_id) {
 
         }
 
-
-/**
- *  Get Server's Details
- * @param type $server_id
- * @return boolean
- */
-public function getServer($server_id) {
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $servers = 'servers';
-    
-    $result = mysql_query("SELECT * FROM $dbprefix$servers WHERE server_id='$server_id'") or die(mysql_error());
-    // check for result
-    $no_of_rows = mysql_num_rows($result);
-    if ($no_of_rows > 0) {
-        $result = mysql_fetch_array($result);
-        return $result;
-    } else {
-        // Server not found
-        return false;
-    }
-}
+        /**
+         *  Get Server's Details
+         * @param type $server_id
+         * @return boolean
+         */
+        public function getServer($server_id) {
+            $SQL  = "SELECT * FROM " . PSM_DB_PREFIX . "servers WHERE server_id = '" . $server_id . "'";
+            $res  = $this->db->prepare($SQL);
+            $res->execute();
+            return $res->fetch(PDO::FETCH_ASSOC);
+        }
 
         /**
          * Get Server's Logs by Server ID
