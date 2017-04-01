@@ -20,11 +20,11 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
     "tag": "login",
     "success": 1,
     "user": {
-            "user_id": "2",
-            "name": "User Name",
-            "mobile": "23121212121",
-            "email": "email@domain.com"
-	}
+        "user_id": "2",
+        "name": "User Name",
+        "mobile": "23121212121",
+        "email": "email@domain.com"
+    }
 }
 ```
 
