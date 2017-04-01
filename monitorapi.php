@@ -36,6 +36,8 @@
  * error_msg  - will give reason. Error message will show if failed. 
  **/
 
+header('Content-Type: application/json');
+
 // Verify Tag
  if (isset($_GET['tag']) && $_GET['tag'] != '') {
     // Get tag
