@@ -36,12 +36,6 @@
  * error_msg  - will give reason. Error message will show if failed. 
  **/
 
-// Following 2 lines are for debug purpose.
-/*
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-*/
-
 // Verify Tag
  if (isset($_GET['tag']) && $_GET['tag'] != '') {
     // Get tag
@@ -49,9 +43,11 @@ error_reporting(E_ALL);
     //Include Database handler
     require_once 'Nath_Functions.php';
     $db = new DB_Functions();
-    // response Array
-    $response = array("tag" => $tag, "success" => 0);
 
+     if(PSM_DEBUG) {
+        ini_set('display_errors', 'On'); // response Array
+        error_reporting(E_ALL); $response = array("tag" => $tag, "success" => 0);
+     }
 
     if ($tag == 'serverlist') {
         $email = $_GET['email'];

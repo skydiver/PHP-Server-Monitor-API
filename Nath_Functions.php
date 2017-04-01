@@ -65,30 +65,30 @@ public function random_string(){
     return implode('', $temp_array);
 }
 
-/**
- * Get User's Servers List by User ID
- * @param type $user_id
- * @return boolean
- */
-public function getServerlistbyUserID($user_id) {
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $servers = 'servers';
-    $users_servers = 'users_servers';
+        /**
+         * Get User's Servers List by User ID
+         * @param type $user_id
+         * @return boolean
+         */
+        public function getServerlistbyUserID($user_id) {
 
-    $r = mysql_query("SELECT a.server_id, a.ip, a.port, a.label, a.type, a.status, a.last_online, a.last_check, a.active,a.email, a.pushover, a.warning_threshold, a.warning_threshold_counter, b.server_id, b.user_id FROM $dbprefix$servers a, $dbprefix$users_servers b WHERE b.user_id='$user_id' AND a.server_id=b.server_id");
-    // check for result
-    $no_of_rows = mysql_num_rows($r);
-    if ($no_of_rows > 0) {
-        $result = array();
-        while ($row = mysql_fetch_assoc($r)) {
-            $result[] = $row;
+            $SQL  = "SELECT a.server_id, a.ip, a.port, a.label, a.type, a.status, a.last_online, a.last_check, a.active,a.email, a.pushover, a.warning_threshold, a.warning_threshold_counter, b.server_id, b.user_id
+                     FROM " . PSM_DB_PREFIX . "servers a, " . PSM_DB_PREFIX . "users_servers b
+                     WHERE b.user_id='" . $user_id . "' AND a.server_id=b.server_id";
+            $res  = $this->db->prepare($SQL);
+            $res->execute();
+
+            if($res->rowCount() > 0) {
+                $result = [];
+                while($row = $res->fetchAll(PDO::FETCH_ASSOC)) {
+                    $result[] = $row;
+                }
+                return $result;
+            }
+
+            return false;
+
         }
-        return $result;
-    } else {
-        // Servers not found
-        return false;
-    }
-}
 
 /**
  * Get Monitoring Dashboard
