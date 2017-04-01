@@ -206,56 +206,51 @@ public function getServer($server_id) {
 
         }
 
-/**
- * Update Server to Monitor
- * @param type $user_id
- * @param type $ip
- * @param type $port
- * @param type $label
- * @param type $type
- * @param type $status
- * @param type $active
- * @param type $emailalert
- * @param type $warning_threshold
- * @param type $timeout
- * @param type $server_id
- * @return boolean
- */
- public function updateservertoMonitor($user_id, $ip, $port, $label, $type, $status, $active, $emailalert, $warning_threshold, $timeout, $server_id) { 
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $servers = 'servers';
-    $result = mysql_query("UPDATE $dbprefix$servers SET ip = '$ip', port = '$port', label='$label', type='$type', status='$status', active='$active', email='$emailalert', warning_threshold='$warning_threshold', timeout='$timeout' WHERE server_id = '$server_id'");
-    // check for successful store
-        if ($result) {
-            return true;
-        } else {
-            return false;
+        /**
+         * Update Server to Monitor
+         * @param type $user_id
+         * @param type $ip
+         * @param type $port
+         * @param type $label
+         * @param type $type
+         * @param type $status
+         * @param type $active
+         * @param type $emailalert
+         * @param type $warning_threshold
+         * @param type $timeout
+         * @param type $server_id
+         * @return boolean
+         */
+         public function updateservertoMonitor($user_id, $ip, $port, $label, $type, $status, $active, $emailalert, $warning_threshold, $timeout, $server_id) { 
+            $SQL  = "UPDATE " . PSM_DB_PREFIX . "servers
+                     SET ip = '" . $ip . "', port = '" . $port . "', label='" . $label . "', type='" . $type . "', status='" . $status . "', active='" . $active . "', email='" . $emailalert . "', warning_threshold='" . $warning_threshold . "', timeout='" . $timeout . "'
+                     WHERE server_id = '" . $server_id . "'";
+            $res  = $this->db->prepare($SQL);
+            return $res->execute();
         }
-}
 
-/**
- * Delete Server to Monitor
- * @param type $server_id
- * @return boolean
- */
- public function deleteservertoMonitor($server_id) { 
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $servers = 'servers';
-    $users_servers = 'users_servers';
-    $servers_uptime = 'servers_uptime';
-    $serverlog = 'log';
-    
-    $result = mysql_query("DELETE FROM $dbprefix$servers WHERE server_id = '$server_id'");
-    // check for successful Delete
-        if ($result) {
-             $resuldeluserserver = mysql_query("DELETE FROM $dbprefix$users_servers WHERE server_id = '$server_id'");
-             $resuldelUptime = mysql_query("DELETE FROM $dbprefix$servers_uptime WHERE server_id = '$server_id'");
-             $resuldelLog = mysql_query("DELETE FROM $dbprefix$serverlog WHERE server_id = '$server_id'");
-             return true;
-        } else {
-            return false;
+        /**
+         * Delete Server to Monitor
+         * @param type $server_id
+         * @return boolean
+         */
+         public function deleteservertoMonitor($server_id) {
+
+            $SQL = "DELETE FROM " . PSM_DB_PREFIX . "servers WHERE server_id = '" . $server_id . "'";
+            $res  = $this->db->prepare($SQL);
+            $res->execute();
+
+            if($res->rowCount() > 0) {
+                $SQL2  = "DELETE FROM " . PSM_DB_PREFIX . "users_servers  WHERE server_id = '" . $server_id . "';";
+                $SQL2 .= "DELETE FROM " . PSM_DB_PREFIX . "servers_uptime WHERE server_id = '" . $server_id . "';";
+                $SQL2 .= "DELETE FROM " . PSM_DB_PREFIX . "log            WHERE server_id = '" . $server_id . "';";
+                $res2  = $this->db->prepare($SQL2);
+                return $res2->execute();
+            }
+
+             return false;
+
         }
-}
 
          /*
          * Check Server ID existed or not*
