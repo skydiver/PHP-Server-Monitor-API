@@ -3,7 +3,7 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 
 
 
-##Login API:
+## Login API:
 /api/userapi.php?tag=login&email=email@yourdomain.com&app_password=USER_PASS&phone_type=iPhoneORAndroid&devicetoken=xxxxxxxxxx
 
 **Fields Require:**
@@ -175,8 +175,7 @@ server_id = Monitor's ID
 }
 ```
 
-## IOS App using this API
+## Apps using this API
 
-![Uptime Server Monitor](https://github.com/asuknath/PHP-Server-Monitor-API/blob/master/screenshot.jpg "Uptime Server Monitor")
-
-https://itunes.apple.com/us/app/uptime-server-monitor/id1093560794?mt=8
+* [Android](https://play.google.com/store/apps/details?id=com.serveralarms.uptime)
+* [IOS](https://itunes.apple.com/us/app/uptime-server-monitor/id1093560794?mt=8)
