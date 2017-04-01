@@ -4,14 +4,16 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 
 
 ## Login API:
-```/api/userapi.php?tag=login&email=email@yourdomain.com&app_password=USER_PASS&phone_type=iPhoneORAndroid&devicetoken=xxxxxxxxxx```
+```
+/api/userapi.php?tag=login&email=email@yourdomain.com&app_password=USER_PASS&phone_type=iPhoneORAndroid&devicetoken=xxxxxxxxxx
+```
 
 **Fields Require:**
-Tag = login
-email = Your PHP Server Monitor user's email address  
-app_password = PHP Server Monitor user's password
-phone_type = If you are using IOS devices use iPhone and for Android use Android
-devicetoken = Get the Device Token for push notification service.
+* tag = login
+* email = Your PHP Server Monitor user's email address  
+* app_password = PHP Server Monitor user's password
+* phone_type = If you are using IOS devices use iPhone and for Android use Android
+* devicetoken = Get the Device Token for push notification service.
 
 ```json
 {
