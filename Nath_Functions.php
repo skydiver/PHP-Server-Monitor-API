@@ -172,30 +172,20 @@ public function getServer($server_id) {
     }
 }
 
-/**
- * Get Server's Logs by Server ID
- * @param type $server_id
- * @param type $days
- * @return boolean
- */
-public function getServerLogs($server_id, $days) {
-    $dbprefix = $this->db =PSM_DB_PREFIX;
-    $serverlog = 'log';
-    
-    $r = mysql_query("SELECT type, message, datetime FROM $dbprefix$serverlog WHERE DATE(datetime) > (NOW() - INTERVAL '$days' DAY) AND (server_id='$server_id' AND type='status')");
-    // check for result
-    $no_of_rows = mysql_num_rows($r);
-    if ($no_of_rows > 0) {
-        $result = array();
-        while ($row = mysql_fetch_assoc($r)) {
-            $result[] = $row;
+        /**
+         * Get Server's Logs by Server ID
+         * @param type $server_id
+         * @param type $days
+         * @return boolean
+         */
+        public function getServerLogs($server_id, $days) {
+            $SQL  = "SELECT type, message, datetime
+                     FROM " . PSM_DB_PREFIX . "log
+                     WHERE DATE(datetime) > (NOW() - INTERVAL '" . $days . "' DAY) AND (server_id='" . $server_id . "' AND type='status')";
+            $res  = $this->db->prepare($SQL);
+            $res->execute();
+            return $res->fetchAll(PDO::FETCH_ASSOC);                
         }
-        return $result;
-    } else {
-        // Logs not found
-        return false;
-    }
-}
 
 
 /**
