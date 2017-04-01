@@ -30,11 +30,7 @@
  * API for Login, Register, Changepassword, Resetpassword Requests and for Email Notifications.
   **/
 
-// Following 2 lines are for debug purpose.
-/*
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-*/
+header('Content-Type: application/json');
 
 /*
  * This API will Validate user by email and password 
@@ -49,8 +45,14 @@ error_reporting(E_ALL);
     // Get tag
     $tag = $_GET['tag'];
     //Include Database handler
-    require_once 'Nath_Functions.php';
+    require_once 'functions.class.php';
     $db = new DB_Functions();
+
+     if(PSM_DEBUG) {
+        ini_set('display_errors', 'On'); // response Array
+        error_reporting(E_ALL); $response = array("tag" => $tag, "success" => 0);
+     }
+
     // response Array
     $response = array("tag" => $tag, "success" => 0);
     // check for tag type
