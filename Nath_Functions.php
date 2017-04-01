@@ -311,8 +311,7 @@ public function isServerIDExisted($server_id) {
 
             if($res->rowCount() > 0) {
                 $result = $res->fetch(PDO::FETCH_ASSOC);
-                $hash   = $result['password'];
-                if(password_verify($app_password, $hash)) {
+                if(password_verify($app_password, $result['password'])) {
                     return $result;
                 }
             }
