@@ -45,7 +45,7 @@ header('Content-Type: application/json');
     // Get tag
     $tag = $_GET['tag'];
     //Include Database handler
-    require_once 'Nath_Functions.php';
+    require_once 'functions.class.php';
     $db = new DB_Functions();
 
      if(PSM_DEBUG) {

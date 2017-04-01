@@ -1,0 +1,6 @@
+<Files ~ "^(database|functions)\.class\.php">
+    Order Deny,Allow
+    Allow from all
+    Satisfy All
+    Redirect 404 /
+</Files>

@@ -25,6 +25,11 @@
  * @link        https://www.serveralarms.com/
  **/
  
+    # SECURITY
+    if(!defined("PSM_DB_HOST")) {
+        http_response_code(404);
+    }
+
     class DB_Connect {
 
         public function connect() {

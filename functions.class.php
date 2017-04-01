@@ -35,13 +35,18 @@
     }
 */
 
+    # SECURITY
+    if(!defined("PSM_DB_HOST")) {
+        http_response_code(404);
+    }
+
     class DB_Functions {
         
         private $db;
         
         function __construct() {
             require_once '../config.php';
-            require_once 'Nath_Connect.php';
+            require_once 'database.class.php';
             $db = new DB_Connect();
             $this->db = $db->connect();
         }
