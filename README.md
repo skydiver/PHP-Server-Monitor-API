@@ -43,9 +43,9 @@ PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 **Response:**
 ```json
 {
-    tag: "serverlist",
-    success: 1,
-    server: [
+    "tag": "serverlist",
+    "success": 1,
+    "server": [
         {
             "server_id": "1",
             "ip": "https://hostfav.com",
