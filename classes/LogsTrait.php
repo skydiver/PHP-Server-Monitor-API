@@ -14,6 +14,7 @@
             return Log::select('type', 'message', 'datetime')
                 ->where(DB::raw('DATE(datetime)'), '>', DB::raw('(NOW() - INTERVAL ' . $days . ' DAY)'))
                 ->where('server_id', $server_id)
+                ->where('type', 'status')
                 ->get();            
         }
 
