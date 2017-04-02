@@ -23,16 +23,16 @@
          * @return boolean
          */
         public function getMonitorStatusByUserID($user_id) {
-            $SQL = "SELECT COUNT(a.server_id) as servercount, count(if(a.status = 'on', a.status, NULL))
-                    AS statusoncount, count(if(a.status = 'off', a.status, NULL))
-                    AS statusoffcount, count(if(a.active = 'no', a.active, NULL))
-                    AS activecount, count(if(a.email = 'yes', a.email, NULL))
-                    AS emailalertcount, b.server_id, b.user_id
-                    FROM " . PSM_DB_PREFIX . "servers a, " . PSM_DB_PREFIX . "users_servers b
-                    WHERE b.user_id='" . $user_id . "' AND a.server_id=b.server_id";
-            $res  = $this->db->prepare($SQL);
-            $res->execute();
-            return $res->fetch(PDO::FETCH_ASSOC);
+            return DB::table('servers AS a')
+                ->select('b.server_id', 'b.user_id')
+                ->selectRaw(sprintf('COUNT(%sa.server_id) as servercount', DB::getTablePrefix()))
+                ->selectRaw(sprintf('COUNT(if(%1$sa.status = "on" , %1$sa.status, NULL)) AS statusoncount'  , DB::getTablePrefix()))
+                ->selectRaw(sprintf('COUNT(if(%1$sa.status = "off", %1$sa.status, NULL)) AS statusoffcount' , DB::getTablePrefix()))
+                ->selectRaw(sprintf('COUNT(if(%1$sa.active = "no" , %1$sa.active, NULL)) AS activecount'    , DB::getTablePrefix()))
+                ->selectRaw(sprintf('COUNT(if(%1$sa.email  = "yes", %1$sa.email , NULL)) AS emailalertcount', DB::getTablePrefix()))
+                ->join('users_servers AS b', 'b.server_id', '=', 'a.server_id')
+                ->where('b.user_id', $user_id)
+                ->get();
         }
 
         /**
@@ -41,10 +41,7 @@
          * @return boolean
          */
         public function getServer($server_id) {
-            $SQL  = "SELECT * FROM " . PSM_DB_PREFIX . "servers WHERE server_id = '" . $server_id . "'";
-            $res  = $this->db->prepare($SQL);
-            $res->execute();
-            return $res->fetch(PDO::FETCH_ASSOC);
+            return Server::find($server_id);
         }
 
         /**
