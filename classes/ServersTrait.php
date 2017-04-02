@@ -61,27 +61,27 @@
          * @param type $timeout
          * @return boolean
          */
-         public function addservertoMonitor($user_id, $ip, $port, $label, $type, $status, $active, $emailalert, $warning_threshold, $timeout) {
+        public function addservertoMonitor($user_id, $ip, $port, $label, $type, $status, $active, $emailalert, $warning_threshold, $timeout) {
 
-            $SQL  = "INSERT INTO " . PSM_DB_PREFIX . "servers
-                     (ip, port, label, type, status, active, email, warning_threshold, timeout)
-                     VALUES('". $ip ."', '". $port ."', '". $label ."', '". $type ."', '". $status ."', '". $active ."', '". $emailalert ."', '". $warning_threshold ."', '". $timeout ."')";
-            $res  = $this->db->prepare($SQL);
-
-            if($res->execute()) {
-
-                $server_id = $this->db->lastInsertId();
-                $SQL2 = "INSERT INTO " . PSM_DB_PREFIX . "users_servers (user_id, server_id) VALUES('" . $user_id . "', '" . $server_id . "')";
-                $res2 = $this->db->prepare($SQL2);
-
-                if($res2->execute()) {
-                    return $res2;
-                }
-
-            }
-
-            return false;
-
+            $server = new Server;
+            $server->ip                = $ip;
+            $server->port              = $port;
+            $server->label             = $label;
+            $server->type              = $type;
+            $server->status            = $status;
+            $server->active            = $active;
+            $server->email             = $emailalert;
+            $server->warning_threshold = $warning_threshold;
+            $server->timeout           = $timeout;
+            $server->save();
+             
+            $user_server = new UserServer;
+            $user_server->user_id    = $user_id;
+            $user_server->server_id = $server->id;
+            $user_server->save();
+            
+            return $user_server;
+            
         }
 
         /**
@@ -99,12 +99,19 @@
          * @param type $server_id
          * @return boolean
          */
-         public function updateservertoMonitor($user_id, $ip, $port, $label, $type, $status, $active, $emailalert, $warning_threshold, $timeout, $server_id) { 
-            $SQL  = "UPDATE " . PSM_DB_PREFIX . "servers
-                     SET ip = '" . $ip . "', port = '" . $port . "', label='" . $label . "', type='" . $type . "', status='" . $status . "', active='" . $active . "', email='" . $emailalert . "', warning_threshold='" . $warning_threshold . "', timeout='" . $timeout . "'
-                     WHERE server_id = '" . $server_id . "'";
-            $res  = $this->db->prepare($SQL);
-            return $res->execute();
+         public function updateservertoMonitor($user_id, $ip, $port, $label, $type, $status, $active, $emailalert, $warning_threshold, $timeout, $server_id) {
+            $server = Server::find($server_id);
+            $server->ip                = $ip;
+            $server->port              = $port;
+            $server->label             = $label;
+            $server->type              = $type;
+            $server->status            = $status;
+            $server->active            = $active;
+            $server->email             = $emailalert;
+            $server->warning_threshold = $warning_threshold;
+            $server->timeout           = $timeout;
+            $server->save();
+            return $server;
         }
 
         /**
@@ -136,10 +143,7 @@
          * @return boolean
          */
         public function isServerIDExisted($server_id) {
-            $SQL  = "SELECT server_id from " . PSM_DB_PREFIX . "servers WHERE server_id = '" . $server_id . "'";
-            $res  = $this->db->prepare($SQL);
-            $res->execute();
-            return $res->fetch(PDO::FETCH_ASSOC);
+            return Server::select('server_id')->where('server_id', $server_id)->first();
         }
 
     }

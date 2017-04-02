@@ -2,9 +2,9 @@
 
     use Illuminate\Database\Eloquent\Model as Eloquent;
 
-    class Server extends Eloquent {
+    class UserServer extends Eloquent {
 
-        protected $primaryKey = 'server_id';
+        protected $table = 'users_servers';
 
         public $timestamps = false;
 
