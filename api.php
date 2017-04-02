@@ -37,7 +37,7 @@
 
     require_once 'bootstrap.php';
 
-    class DB_Functions {
+    class PSM_API {
 
         use LogsTrait;
         use ServersTrait;

@@ -45,14 +45,8 @@ header('Content-Type: application/json');
     // Get tag
     $tag = $_GET['tag'];
     //Include Database handler
-    require_once 'functions.class.php';
-    $db = new DB_Functions();
-
-     if(PSM_DEBUG) {
-        ini_set('display_errors', 'On'); // response Array
-        error_reporting(E_ALL); $response = array("tag" => $tag, "success" => 0);
-     }
-
+    require_once 'api.php';
+    $db = new PSM_API();
     // response Array
     $response = array("tag" => $tag, "success" => 0);
     // check for tag type

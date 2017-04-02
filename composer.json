@@ -4,8 +4,8 @@
     },
     "autoload": {
         "classmap": [
-            "classes",
-            "models"
+            "Models",
+            "Traits"
         ]
     }
 }
