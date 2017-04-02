@@ -1,5 +1,7 @@
 <?php
 
+    use Illuminate\Database\Capsule\Manager as DB;
+
     trait UptimeTrait {
 
         /**
@@ -10,20 +12,25 @@
          */
         public function getServerUptime($server_id, $HoursUnit) {
 
-            if($HoursUnit <= 1){
-                $SQL = "SELECT servers_uptime_id, server_id, date, status, latency
-                        FROM " . PSM_DB_PREFIX . "servers_uptime
-                        WHERE date >=(NOW() - INTERVAL '" . $HoursUnit . "' HOUR) AND (server_id='" . $server_id . "')";
-            } else {               
-                $SQL = "SELECT servers_uptime_id, server_id, date, status, AVG(latency) as latency
-                        FROM " . PSM_DB_PREFIX . "servers_uptime
-                        WHERE date >=(NOW() - INTERVAL '" . $HoursUnit . "' HOUR) AND (server_id='" . $server_id . "')
-                        GROUP BY DATE(date), HOUR(date)";
+            if($HoursUnit <= 1) {
+
+                $uptime = ServerUptime::select('servers_uptime_id', 'server_id', 'date', 'status', 'latency')
+                    ->where('date', '>=', DB::raw('(NOW() - INTERVAL ' . $HoursUnit . ' HOUR)'))
+                    ->where('server_id', $server_id)
+                    ->get();
+
+            } else {
+
+                $uptime = ServerUptime::select('servers_uptime_id', 'server_id', 'date', 'status', DB::raw('AVG(latency) as latency'))
+                    ->where('date', '>=', DB::raw('(NOW() - INTERVAL ' . $HoursUnit . ' HOUR)'))
+                    ->where('server_id', $server_id)
+                    ->groupBy(DB::raw('DATE(date)'))
+                    ->groupBy(DB::raw('HOUR(date)'))
+                    ->get();
+
             }
 
-            $res  = $this->db->prepare($SQL);
-            $res->execute();
-            return $res->fetchAll(PDO::FETCH_ASSOC);
+            return $uptime;
 
         }
 
