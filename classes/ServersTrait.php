@@ -119,25 +119,16 @@
          * @param type $server_id
          * @return boolean
          */
-         public function deleteservertoMonitor($server_id) {
-
-            $SQL = "DELETE FROM " . PSM_DB_PREFIX . "servers WHERE server_id = '" . $server_id . "'";
-            $res  = $this->db->prepare($SQL);
-            $res->execute();
-
-            if($res->rowCount() > 0) {
-                $SQL2  = "DELETE FROM " . PSM_DB_PREFIX . "users_servers  WHERE server_id = '" . $server_id . "';";
-                $SQL2 .= "DELETE FROM " . PSM_DB_PREFIX . "servers_uptime WHERE server_id = '" . $server_id . "';";
-                $SQL2 .= "DELETE FROM " . PSM_DB_PREFIX . "log            WHERE server_id = '" . $server_id . "';";
-                $res2  = $this->db->prepare($SQL2);
-                return $res2->execute();
+        public function deleteservertoMonitor($server_id) {
+            $server = Server::find($server_id);
+            if($server) {
+                $server->delete();
+                return true;
             }
-
-             return false;
-
+            return false;
         }
 
-         /*
+        /**
          * Check Server ID existed or not*
          * @param type $server_id
          * @return boolean
