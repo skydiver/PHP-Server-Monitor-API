@@ -32,7 +32,7 @@
                 ->selectRaw(sprintf('COUNT(if(%1$sa.email  = "yes", %1$sa.email , NULL)) AS emailalertcount', DB::getTablePrefix()))
                 ->join('users_servers AS b', 'b.server_id', '=', 'a.server_id')
                 ->where('b.user_id', $user_id)
-                ->get();
+                ->first();
         }
 
         /**
