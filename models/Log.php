@@ -4,6 +4,8 @@
 
     class Log extends Eloquent {
 
+        protected $table = 'log';
+
         public $timestamps = false;
 
     }

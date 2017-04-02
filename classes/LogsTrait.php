@@ -1,5 +1,7 @@
 <?php
 
+    use Illuminate\Database\Capsule\Manager as DB;
+
     trait LogsTrait {
 
         /**
@@ -9,12 +11,10 @@
          * @return boolean
          */
         public function getServerLogs($server_id, $days) {
-            $SQL  = "SELECT type, message, datetime
-                     FROM " . PSM_DB_PREFIX . "log
-                     WHERE DATE(datetime) > (NOW() - INTERVAL '" . $days . "' DAY) AND (server_id='" . $server_id . "' AND type='status')";
-            $res  = $this->db->prepare($SQL);
-            $res->execute();
-            return $res->fetchAll(PDO::FETCH_ASSOC);
+            return Log::select('type', 'message', 'datetime')
+                ->where(DB::raw('DATE(datetime)'), '>', DB::raw('(NOW() - INTERVAL ' . $days . ' DAY)'))
+                ->where('server_id', $server_id)
+                ->get();            
         }
 
     }

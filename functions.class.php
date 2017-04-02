@@ -39,6 +39,7 @@
 
     class DB_Functions {
 
+        use LogsTrait;
         use ServersTrait;
         use UptimeTrait;
         use UsersTrait;
