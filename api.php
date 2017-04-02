@@ -24,19 +24,25 @@
  * @version     Release: v1.0
  * @link        https://www.serveralarms.com/
  **/
- 
-    # SECURITY
-    if(!defined("PSM_DB_HOST")) {
-        http_response_code(404);
+
+/*
+    if (version_compare(PHP_VERSION, '5.3.7', '<')) {
+        exit("Sorry, Simple PHP Login does not run on a PHP version smaller than 5.3.7 !");
+    } else if (version_compare(PHP_VERSION, '5.5.0', '<')) {
+        // if you are using PHP 5.3 or PHP 5.4 you have to include the password_api_compatibility_library.php
+        // (this library adds the PHP 5.5 password hashing functions to older versions of PHP)
+        require_once '../src/includes/password_compatibility_library.inc.php';
     }
+*/
 
-    class DB_Connect {
+    require_once 'bootstrap.php';
 
-        public function connect() {
-            require_once ('../config.php');
-            $con = new PDO('mysql:host='.PSM_DB_HOST.';dbname='.PSM_DB_NAME, PSM_DB_USER, PSM_DB_PASS);
-            return $con;
-        }
+    class PSM_API {
+
+        use LogsTrait;
+        use ServersTrait;
+        use UptimeTrait;
+        use UsersTrait;
 
     }
 
