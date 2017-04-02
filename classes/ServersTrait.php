@@ -1,5 +1,7 @@
 <?php
 
+    use Illuminate\Database\Capsule\Manager as DB;
+
     trait ServersTrait {
     
         /**
@@ -8,12 +10,11 @@
          * @return boolean
          */
         public function getServerlistbyUserID($user_id) {
-            $SQL  = "SELECT a.server_id, a.ip, a.port, a.label, a.type, a.status, a.last_online, a.last_check, a.active,a.email, a.pushover, a.warning_threshold, a.warning_threshold_counter, b.server_id, b.user_id
-                     FROM " . PSM_DB_PREFIX . "servers a, " . PSM_DB_PREFIX . "users_servers b
-                     WHERE b.user_id='" . $user_id . "' AND a.server_id=b.server_id";
-            $res  = $this->db->prepare($SQL);
-            $res->execute();
-            return $res->fetchAll(PDO::FETCH_ASSOC);
+            $servers = DB::table('servers AS a')
+                ->select(['a.server_id', 'a.ip', 'a.port', 'a.label', 'a.type', 'a.status', 'a.last_online', 'a.last_check', 'a.active','a.email', 'a.pushover', 'a.warning_threshold', 'a.warning_threshold_counter', 'b.user_id'])
+                ->join('users_servers AS b', 'b.server_id', '=', 'a.server_id')
+                ->get();
+            return $servers;
         }
 
         /**

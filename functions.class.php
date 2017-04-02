@@ -39,6 +39,7 @@
 
     class DB_Functions {
 
+        use ServersTrait;
         use UsersTrait;
 
     }
