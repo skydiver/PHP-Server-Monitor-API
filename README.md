@@ -2,6 +2,11 @@
 PHP Server Monitor API for IOS (iPhone &amp; iPad) and Android
 
 
+## Install
+1. ```git clone https://github.com/skydiver/PHP-Server-Monitor-API api``` inside your PHP Server Monitor folder
+2. ```composer install```
+3. Continue with documentation
+
 
 ## Login API:
 ```
